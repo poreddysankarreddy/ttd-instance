@@ -1,39 +1,38 @@
 pipeline {
-    agent {label 'linux-node'
-    stages {
-     stage('clean') { 
-		tools {
-			maven ‘mvn3.8.5’
+	agent {  label 'linux-node' }
+	stages {
+		stage('---clean---'){
+			tools {
+				maven 'mvn3.8.5'
+			}
+			steps {
+				
+				sh "mvn clean"
+			}
 		}
-            steps {
-                echo 'from clean stage'
-            }
-        }
-        stage('Build') { 
-		tools {
-			maven ‘mvn3.8.5’
+		stage('---test---') {
+			tools {
+				maven 'mvn3.8.4'
+			}
+			steps {
+				
+				sh "mvn test"
+			}
 		}
-            steps {
-                echo 'from build stage'
-            }
-        }
-        stage('Test') { 
-            steps {
-                echo 'from Test stage'
-            }
-        }
-        stage('Deploy') { 
-            steps {
-                echo 'from Deploy stage'
-            }
-        }
-    }
-	post{
-		failure{
-			echo 'job was not build it was failed'
+		stage('---package---'){
+			
+			steps {
+				
+				sh "mvn package"
+			}
 		}
-		success{
-			echo 'job was build successfully'
+	}
+	post {
+		success {
+			echo 'job was built successfully'
+		}
+		failure {
+			echo 'job was not build..it was failed'
 		}
 	}
 }
