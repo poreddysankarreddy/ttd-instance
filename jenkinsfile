@@ -16,7 +16,7 @@ pipeline {
 			}
 			steps {
 				
-				sh "make test"
+				sh "mvn test"
 			}
 		}
 		stage('---package---'){
